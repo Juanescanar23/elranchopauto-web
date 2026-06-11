@@ -66,6 +66,7 @@
     "What Our Customers Say": "Lo Que Dicen Nuestros Clientes",
     "Excellent": "Excelente",
     "· based on Google reviews": "· según reseñas de Google",
+    "See us on Google": "Míranos en Google",
 
     // ---- Home: CTA ----
     "Honest diagnostics, professional repairs, and reliable service backed by more than 35 years of experience.": "Diagnósticos honestos, reparaciones profesionales y servicio confiable respaldado por más de 35 años de experiencia.",

@@ -50,8 +50,9 @@ h1,h2,h3,h4,h5{font-family:var(--font-head);color:var(--navy);line-height:1.2;fo
 .lead{font-size:1.12rem;color:var(--muted)}
 
 /* ---------- Buttons ---------- */
-.btn{display:inline-flex;align-items:center;gap:9px;font-weight:600;font-family:var(--font);
-  padding:14px 28px;border-radius:999px;cursor:pointer;border:2px solid transparent;font-size:.98rem}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;font-weight:600;font-family:var(--font);
+  padding:14px 28px;border-radius:999px;cursor:pointer;border:2px solid transparent;font-size:.98rem;
+  white-space:nowrap;line-height:1.1}
 .btn--primary{background:var(--blue);color:#fff}
 .btn--primary:hover{background:var(--blue-dark);color:#fff;transform:translateY(-2px)}
 .btn--ghost{background:transparent;color:#fff;border-color:rgba(255,255,255,.6)}
@@ -60,18 +61,18 @@ h1,h2,h3,h4,h5{font-family:var(--font-head);color:var(--navy);line-height:1.2;fo
 .btn--dark:hover{background:var(--slate);color:#fff}
 
 /* ---------- Header ---------- */
-.site-header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.96);
-  backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.site-header{position:sticky;top:0;z-index:50;background:rgba(20,18,18,.96);
+  backdrop-filter:blur(8px);border-bottom:1px solid rgba(255,255,255,.08)}
 .nav{display:flex;align-items:center;justify-content:space-between;gap:24px;height:78px}
 .nav__logo img{height:46px;width:auto}
 .nav__menu{display:flex;align-items:center;gap:30px;list-style:none}
-.nav__menu a{color:var(--slate);font-weight:600;font-size:.97rem;position:relative}
-.nav__menu a:hover,.nav__menu a.is-active{color:var(--blue)}
+.nav__menu a{color:#EDE9E7;font-weight:600;font-size:.97rem;position:relative}
+.nav__menu a:hover,.nav__menu a.is-active{color:#F23842}
 .nav__menu a.is-active::after{content:"";position:absolute;left:0;right:0;bottom:-26px;height:3px;background:var(--blue);border-radius:3px}
 .nav__cta{display:flex;align-items:center;gap:16px}
-.nav__phone{display:inline-flex;align-items:center;gap:8px;font-weight:700;color:var(--navy)}
+.nav__phone{display:inline-flex;align-items:center;gap:8px;font-weight:700;color:#fff}
 .nav__toggle{display:none;flex-direction:column;gap:5px;background:none;border:0;cursor:pointer;padding:8px}
-.nav__toggle span{width:26px;height:3px;background:var(--navy);border-radius:3px;transition:.3s}
+.nav__toggle span{width:26px;height:3px;background:#fff;border-radius:3px;transition:.3s}
 
 /* ---------- Hero ---------- */
 .hero{position:relative;color:#fff;background:linear-gradient(120deg,#1A1718 0%,#241015 55%,#3a0f12 100%);overflow:hidden}
@@ -172,7 +173,7 @@ h1,h2,h3,h4,h5{font-family:var(--font-head);color:var(--navy);line-height:1.2;fo
   .nav__menu,.nav__phone{display:none}
   .nav__toggle{display:flex}
   .nav__menu.is-open{display:flex;position:absolute;top:78px;left:0;right:0;flex-direction:column;
-    background:#fff;padding:18px 24px;gap:18px;border-bottom:1px solid var(--line);box-shadow:var(--shadow)}
+    background:#1A1718;padding:18px 24px;gap:18px;border-bottom:1px solid rgba(255,255,255,.08);box-shadow:var(--shadow)}
   .nav__menu.is-open a.is-active::after{display:none}
   .split{grid-template-columns:1fr;gap:34px}
   .grid-3,.reviews,.footer-grid{grid-template-columns:1fr}
@@ -186,13 +187,20 @@ h1,h2,h3,h4,h5{font-family:var(--font-head);color:var(--navy);line-height:1.2;fo
 @media (max-width:560px){
   .hero h1{font-size:1.9rem}
   .section__head h2{font-size:1.6rem}
+  .nav{gap:12px}
+  .nav__cta{gap:9px}
+  .nav__cta .btn{padding:9px 16px;font-size:.88rem}
 }
 
 /* ---------- Language toggle ---------- */
-.lang-toggle{display:inline-flex;align-items:center;gap:6px;background:transparent;border:1.5px solid var(--line);
-  color:var(--slate);font-family:var(--font);font-weight:700;font-size:.82rem;padding:7px 12px;border-radius:999px;
+.lang-toggle{display:inline-flex;align-items:center;gap:6px;background:transparent;border:1.5px solid rgba(255,255,255,.28);
+  color:#EDE9E7;font-family:var(--font);font-weight:700;font-size:.82rem;padding:7px 12px;border-radius:999px;
   cursor:pointer;transition:.2s;line-height:1}
 .lang-toggle:hover{border-color:var(--blue);color:var(--blue)}
 .lang-toggle svg{width:16px;height:16px;flex:0 0 16px}
 .lang-toggle__code{letter-spacing:.04em}
 @media (max-width:560px){ .lang-toggle{padding:6px 9px;font-size:.78rem} }
+
+/* ---------- Google reviews ---------- */
+.rating-badge svg{vertical-align:middle;flex:0 0 auto}
+.reviews-cta{text-align:center;margin-top:36px}
