@@ -76,7 +76,7 @@ h1,h2,h3,h4,h5{font-family:var(--font-head);color:var(--navy);line-height:1.2;fo
 
 /* ---------- Hero ---------- */
 .hero{position:relative;color:#fff;background:linear-gradient(120deg,#1A1718 0%,#241015 55%,#3a0f12 100%);overflow:hidden}
-.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(100deg,rgba(20,18,18,.93) 0%,rgba(20,18,18,.72) 40%,rgba(40,16,21,.46) 72%,rgba(58,15,18,.34) 100%),url('../assets/img/hero-team.jpg') center/cover}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(100deg,rgba(20,18,18,.93) 0%,rgba(20,18,18,.72) 40%,rgba(40,16,21,.46) 72%,rgba(58,15,18,.34) 100%),url('../assets/img/hero-team.jpg?v=20260612-hero-cachefix') center/cover}
 .hero__inner{position:relative;z-index:2;max-width:760px;padding:104px 0}
 .hero h1{color:#fff;font-size:3rem;line-height:1.1}
 .hero p{font-size:1.2rem;margin-top:20px;color:#E8E2E0;max-width:600px}

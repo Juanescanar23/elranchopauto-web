@@ -29,7 +29,7 @@ After deploy, test:
 
 ```bash
 curl -I https://elranchopauto.com/send-form.php
-curl -I https://elranchopauto.com/css/styles.css?v=20260612-forms
+curl -I https://elranchopauto.com/css/styles.css?v=20260612-hero-cachefix
 ```
 
 Also submit one real test form and confirm the email arrives at `info@elranchopauto.com`.
