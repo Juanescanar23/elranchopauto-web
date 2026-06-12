@@ -264,6 +264,23 @@ function has_too_many_links(string $value): bool
     return count($matches[0]) > 2;
 }
 
+function load_mail_config(): ?array
+{
+    $paths = [
+        dirname(__DIR__) . DIRECTORY_SEPARATOR . 'form-mail-config.php',
+        __DIR__ . DIRECTORY_SEPARATOR . 'form-mail-config.php',
+    ];
+
+    foreach ($paths as $path) {
+        if (is_readable($path)) {
+            $config = require $path;
+            return is_array($config) ? $config : null;
+        }
+    }
+
+    return null;
+}
+
 function format_multiline(string $value): string
 {
     return nl2br(escape_html($value), false);
@@ -371,7 +388,10 @@ function build_text_email(string $heading, array $fields, array $meta): string
 function send_email(string $subject, string $htmlBody, string $textBody, ?string $replyTo): bool
 {
     $boundary = 'erp_' . bin2hex(random_bytes(12));
-    $from = clean_header(FROM_NAME) . ' <' . FROM_EMAIL . '>';
+    $config = load_mail_config();
+    $fromEmail = clean_header((string) ($config['from_email'] ?? FROM_EMAIL));
+    $fromName = clean_header((string) ($config['from_name'] ?? FROM_NAME));
+    $from = $fromName . ' <' . $fromEmail . '>';
     $replyTo = $replyTo ? clean_header($replyTo) : FROM_EMAIL;
 
     $headers = [
@@ -392,14 +412,107 @@ function send_email(string $subject, string $htmlBody, string $textBody, ?string
     $body .= $htmlBody . "\r\n";
     $body .= "--{$boundary}--\r\n";
 
-    $params = '-f' . FROM_EMAIL;
-    $sent = @mail(RECIPIENT_EMAIL, encoded_subject($subject), $body, implode("\r\n", $headers), $params);
+    if ($config) {
+        return smtp_send($config, RECIPIENT_EMAIL, $subject, $headers, $body);
+    }
 
+    $params = '-f' . $fromEmail;
+    $sent = @mail(RECIPIENT_EMAIL, encoded_subject($subject), $body, implode("\r\n", $headers), $params);
     if (!$sent) {
+        error_log('El Rancho P Auto form mail() failed. SMTP config is missing.');
         $sent = @mail(RECIPIENT_EMAIL, encoded_subject($subject), $body, implode("\r\n", $headers));
     }
 
     return $sent;
+}
+
+function smtp_send(array $config, string $to, string $subject, array $headers, string $body): bool
+{
+    $host = (string) ($config['host'] ?? '');
+    $port = (int) ($config['port'] ?? 465);
+    $encryption = strtolower((string) ($config['encryption'] ?? 'ssl'));
+    $username = (string) ($config['username'] ?? '');
+    $password = (string) ($config['password'] ?? '');
+    $fromEmail = clean_header((string) ($config['from_email'] ?? FROM_EMAIL));
+
+    if ($host === '' || $username === '' || $password === '' || $fromEmail === '') {
+        error_log('El Rancho P Auto SMTP config is incomplete.');
+        return false;
+    }
+
+    $remote = ($encryption === 'ssl' ? 'ssl://' : 'tcp://') . $host . ':' . $port;
+    $socket = @stream_socket_client($remote, $errno, $errstr, 20, STREAM_CLIENT_CONNECT);
+    if (!$socket) {
+        error_log('El Rancho P Auto SMTP connection failed: ' . $errstr);
+        return false;
+    }
+
+    stream_set_timeout($socket, 20);
+
+    try {
+        smtp_expect($socket, [220]);
+        smtp_command($socket, 'EHLO elranchopauto.com', [250]);
+
+        if ($encryption === 'tls') {
+            smtp_command($socket, 'STARTTLS', [220]);
+            if (!stream_socket_enable_crypto($socket, true, STREAM_CRYPTO_METHOD_TLS_CLIENT)) {
+                throw new RuntimeException('SMTP STARTTLS negotiation failed.');
+            }
+            smtp_command($socket, 'EHLO elranchopauto.com', [250]);
+        }
+
+        smtp_command($socket, 'AUTH LOGIN', [334]);
+        smtp_command($socket, base64_encode($username), [334]);
+        smtp_command($socket, base64_encode($password), [235]);
+        smtp_command($socket, 'MAIL FROM:<' . $fromEmail . '>', [250]);
+        smtp_command($socket, 'RCPT TO:<' . $to . '>', [250, 251]);
+        smtp_command($socket, 'DATA', [354]);
+
+        $message = "To: {$to}\r\n";
+        $message .= 'Subject: ' . encoded_subject($subject) . "\r\n";
+        $message .= implode("\r\n", $headers) . "\r\n\r\n";
+        $message .= $body;
+        $message = preg_replace("/\r\n\./", "\r\n..", $message);
+
+        fwrite($socket, $message . "\r\n.\r\n");
+        smtp_expect($socket, [250]);
+        smtp_command($socket, 'QUIT', [221]);
+        fclose($socket);
+
+        return true;
+    } catch (Throwable $exception) {
+        error_log('El Rancho P Auto SMTP send failed: ' . $exception->getMessage());
+        fclose($socket);
+        return false;
+    }
+}
+
+function smtp_command($socket, string $command, array $expectedCodes): string
+{
+    fwrite($socket, $command . "\r\n");
+    return smtp_expect($socket, $expectedCodes);
+}
+
+function smtp_expect($socket, array $expectedCodes): string
+{
+    $response = '';
+    while (($line = fgets($socket, 515)) !== false) {
+        $response .= $line;
+        if (preg_match('/^\d{3} /', $line)) {
+            break;
+        }
+    }
+
+    if ($response === '') {
+        throw new RuntimeException('SMTP server did not respond.');
+    }
+
+    $code = (int) substr($response, 0, 3);
+    if (!in_array($code, $expectedCodes, true)) {
+        throw new RuntimeException('Unexpected SMTP response: ' . trim($response));
+    }
+
+    return $response;
 }
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {

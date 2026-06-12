@@ -13,3 +13,6 @@ npm-debug.log*
 .vscode/
 .idea/
 *.log
+
+# Secrets
+form-mail-config.php

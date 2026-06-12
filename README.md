@@ -56,6 +56,8 @@ npx serve .
 
 Los formularios de cita y contacto envían solicitudes a `send-form.php` y notifican a `info@elranchopauto.com`.
 Para que funcionen, el sitio debe desplegarse en Hostinger u otro hosting con PHP habilitado.
+El envío usa SMTP autenticado cuando existe `/home/u270205007/domains/elranchopauto.com/form-mail-config.php`.
+Usa `form-mail-config.example.php` como plantilla y nunca subas credenciales reales a Git.
 
 ## Pendientes / próximos pasos
 

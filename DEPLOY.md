@@ -34,6 +34,16 @@ curl -I https://elranchopauto.com/css/styles.css?v=20260612-forms
 
 Also submit one real test form and confirm the email arrives at `info@elranchopauto.com`.
 
+### SMTP config
+
+Hostinger local `sendmail` may be disabled. For reliable form delivery, create this file outside `public_html`:
+
+```text
+/home/u270205007/domains/elranchopauto.com/form-mail-config.php
+```
+
+Use `form-mail-config.example.php` as the template and fill the real mailbox password there. Never commit the real config.
+
 ## Option B — Vercel CLI (static preview only)
 
 **You need:** Node.js installed + a free Vercel account.
@@ -70,5 +80,5 @@ That's it — you'll get a `https://elranchopauto-xxxx.vercel.app` URL to review
 ## Notes
 - `vercel.json` is included for static preview compatibility. Production form handling lives in `send-form.php`.
 - **Google Fonts** and the **Google Maps** embed load from the network — fine once it's online.
-- **Forms require PHP mail support** on the hosting account. For best deliverability, keep SPF/DKIM/DMARC aligned for `elranchopauto.com`.
+- **Forms require PHP + SMTP credentials** on the hosting account. For best deliverability, keep SPF/DKIM/DMARC aligned for `elranchopauto.com`.
 - **Image weight:** the 3 service PNGs are ~1 MB each. Converting them to WebP/JPG will speed up loads.
