@@ -36,7 +36,7 @@ Also submit one real test form and confirm the email arrives at `info@elranchopa
 
 ### SMTP config
 
-Hostinger local `sendmail` may be disabled. For reliable form delivery, create this file outside `public_html`:
+Hostinger local `sendmail` may be disabled. The domain currently uses Titan email MX records, so SMTP should use `smtp.titan.email`. For reliable form delivery, create this file outside `public_html`:
 
 ```text
 /home/u270205007/domains/elranchopauto.com/form-mail-config.php

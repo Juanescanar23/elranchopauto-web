@@ -3,7 +3,7 @@
 // /home/u270205007/domains/elranchopauto.com/form-mail-config.php
 // Do not commit the real credentials.
 return [
-    'host' => 'smtp.hostinger.com',
+    'host' => 'smtp.titan.email',
     'port' => 465,
     'encryption' => 'ssl',
     'username' => 'info@elranchopauto.com',
