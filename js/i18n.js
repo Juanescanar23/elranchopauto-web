@@ -144,7 +144,7 @@
     "Other / Not sure": "Otro / No estoy seguro",
     "Preferred date": "Fecha preferida",
     "How can we help?": "¿Cómo podemos ayudarte?",
-    "⚠️ Front-end demo form — connect it to email, a form service (e.g. Formspree), or a booking backend to receive submissions.": "⚠️ Formulario demo (solo front-end) — conéctalo a un correo, a un servicio como Formspree o a un backend de reservas para recibir las solicitudes.",
+    "Requests go directly to our team. We usually confirm by phone or email.": "Las solicitudes llegan directamente a nuestro equipo. Normalmente confirmamos por teléfono o correo.",
 
     // ---- Contact ----
     "Contact Us": "Contáctanos",
@@ -156,7 +156,7 @@
     "Name *": "Nombre *",
     "Email *": "Correo *",
     "Message *": "Mensaje *",
-    "⚠️ Front-end demo form — connect it to email or a form service to receive messages.": "⚠️ Formulario demo (solo front-end) — conéctalo a un correo o a un servicio de formularios para recibir los mensajes.",
+    "Messages go directly to our team. We usually reply as soon as possible.": "Los mensajes llegan directamente a nuestro equipo. Normalmente respondemos lo antes posible.",
 
     // ---- Placeholders ----
     "Your name": "Tu nombre",

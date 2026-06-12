@@ -150,6 +150,11 @@ h1,h2,h3,h4,h5{font-family:var(--font-head);color:var(--navy);line-height:1.2;fo
   box-shadow:0 0 0 3px rgba(216,30,38,.18);background:#fff}
 .field textarea{resize:vertical;min-height:120px}
 .form__note{font-size:.85rem;color:var(--muted)}
+.form__status{min-height:1.35em;font-weight:700}
+.form__status.is-success{color:#1a7f4b}
+.form__status.is-error{color:#B0151B}
+.form__hidden{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.form button[disabled]{opacity:.72;cursor:progress;transform:none}
 
 /* ---------- Footer ---------- */
 .site-footer{background:var(--navy);color:#CFC8C5;padding:64px 0 28px}

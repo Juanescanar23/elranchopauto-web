@@ -1,11 +1,40 @@
 # Deploy to Vercel — El Rancho P Auto (rebuild)
 
-This is a **static site** (HTML/CSS/JS + images). No build step, no framework.
+This is a lightweight **Hostinger/PHP site** (HTML/CSS/JS + images + `send-form.php`).
+There is no build step and no framework.
 The deploy root is **this folder** (`04-rebuild/`).
+
+The contact and appointment forms require PHP hosting. If you deploy to a static-only platform such as Vercel without a serverless/PHP replacement, the forms will not send email.
 
 ---
 
-## Option A — Vercel CLI (fastest)
+## Option A — Hostinger / PHP Hosting (production)
+
+Upload the production files in this folder to:
+
+```text
+/home/u270205007/domains/elranchopauto.com/public_html
+```
+
+Recommended deploy command from this folder:
+
+```bash
+rsync -az --delete --chmod=Du=rwx,Dgo=rx,Fu=rw,Fgo=r \
+  --exclude .git --exclude .vercel --exclude .DS_Store \
+  -e "ssh -i ~/.ssh/openclaw-hostinger -p 65002" \
+  ./ u270205007@elranchopauto.com:/home/u270205007/domains/elranchopauto.com/public_html/
+```
+
+After deploy, test:
+
+```bash
+curl -I https://elranchopauto.com/send-form.php
+curl -I https://elranchopauto.com/css/styles.css?v=20260612-forms
+```
+
+Also submit one real test form and confirm the email arrives at `info@elranchopauto.com`.
+
+## Option B — Vercel CLI (static preview only)
 
 **You need:** Node.js installed + a free Vercel account.
 
@@ -39,7 +68,7 @@ That's it — you'll get a `https://elranchopauto-xxxx.vercel.app` URL to review
 ---
 
 ## Notes
-- `vercel.json` is included (static config + 1-year cache on `/assets`). Links keep `.html` so the site also opens locally.
+- `vercel.json` is included for static preview compatibility. Production form handling lives in `send-form.php`.
 - **Google Fonts** and the **Google Maps** embed load from the network — fine once it's online.
-- **Forms are front-end demos.** To receive submissions, point them at email, a service like Formspree, or your own backend.
+- **Forms require PHP mail support** on the hosting account. For best deliverability, keep SPF/DKIM/DMARC aligned for `elranchopauto.com`.
 - **Image weight:** the 3 service PNGs are ~1 MB each. Converting them to WebP/JPG will speed up loads.

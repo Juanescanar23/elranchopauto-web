@@ -14,6 +14,7 @@ Sitio **estático**, sin framework ni paso de build:
 - **HTML5** semántico (5 páginas)
 - **CSS3** escrito a mano con *custom properties* (design tokens) — sistema de color de marca rojo/negro
 - **JavaScript vanilla** — sin librerías
+- **PHP** para envío real de formularios en Hostinger (`send-form.php`)
 - Tipografías **Roboto / Roboto Slab** (Google Fonts)
 
 Desplegable en **Vercel, Hostinger** o cualquier hosting estático (solo subir el contenido de esta carpeta).
@@ -28,9 +29,10 @@ Desplegable en **Vercel, Hostinger** o cualquier hosting estático (solo subir e
 ├── appointment.html    # Cita
 ├── contact.html        # Contacto
 ├── css/styles.css      # Estilos + sistema de color de marca
-├── js/main.js          # Menú móvil + manejo de formularios (demo)
+├── js/main.js          # Menú móvil + envío AJAX de formularios
 ├── js/i18n.js          # Selector de idioma EN/ES
 ├── assets/img/         # Logo, favicon e imágenes
+├── send-form.php       # Endpoint de contacto/citas para Hostinger
 └── vercel.json         # Configuración de hosting estático
 ```
 
@@ -50,9 +52,14 @@ Abre `index.html` en el navegador, o sirve la carpeta:
 npx serve .
 ```
 
+## Formularios
+
+Los formularios de cita y contacto envían solicitudes a `send-form.php` y notifican a `info@elranchopauto.com`.
+Para que funcionen, el sitio debe desplegarse en Hostinger u otro hosting con PHP habilitado.
+
 ## Pendientes / próximos pasos
 
-- Conectar los formularios (cita y contacto) a correo o a un servicio como Formspree.
+- Verificar SPF/DKIM/DMARC del correo del dominio y revisar inbox/spam después de un envío real.
 - Optimizar las imágenes PNG de servicios (~1 MB c/u) a WebP/JPG.
 
 ---
